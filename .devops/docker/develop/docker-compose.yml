@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+    ssh-manager:
+        container_name: ssh-manager
+        build:
+            context: ../../../
+            dockerfile: ./.devops/docker/develop/Dockerfile
+        volumes:
+            - ../../..:/home/app
+            - ~/storage_block/ssh-manager:/mnt/ssh-manager
+ 
