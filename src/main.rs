@@ -1,19 +1,33 @@
 mod views;
+mod lib;
 
-use iced::{button, Element, Sandbox, Settings, Container};
+use iced::{button, Element, Sandbox, Settings, Container, text_input, window};
+use crate::lib::copy_ssh_pub_key_to_clipboard;
 
 pub fn main() -> iced::Result {
-    App::run(Settings::default())
+    App::run(Settings{
+        window: window::Settings {
+            size: (400, 600),
+            resizable: true,
+            decorations: true,
+            ..window::Settings::default()
+        },
+        ..Default::default()
+    })
 }
 
-#[derive(Debug, Clone, Copy)]
-enum Message {
+#[derive(Debug, Clone)]
+pub enum Message {
     Main,
     SeeSshPressed,
+    CopySshKey,
 }
 
 struct App {
+    main_button: button::State,
     see_ssh_button: button::State,
+    copy_ssh_button: button::State,
+
     state_app: Message,
 }
 
@@ -22,8 +36,11 @@ impl Sandbox for App {
 
     fn new() -> Self {
         Self{
+            see_ssh_button: button::State::default(),
+            main_button: button::State::default(),
+            copy_ssh_button: button::State::default(),
+
             state_app: Message::Main,
-            see_ssh_button: button::State::default()
         }
     }
 
@@ -32,17 +49,27 @@ impl Sandbox for App {
     }
 
     fn update(&mut self, message: Message) {
-        self.state_app= message;
+        match message {
+            Message::CopySshKey=> {
+                copy_ssh_pub_key_to_clipboard();
+                self.state_app= Message::SeeSshPressed;
+            }
+            _=> {
+                self.state_app= message;
+            }
+        }
     }
 
     fn view(&mut self) -> Element<Message> {
 
         let body= match self.state_app {
             Message::Main=> self.get_main_view(),
-            Message::SeeSshPressed=> self.get_ssh_view()
+            Message::SeeSshPressed=> self.get_ssh_view(),
+            _=> {self.get_main_view()}
         };
 
         Container::new(body)
+        .max_width(600)
         .into()
     }
 }

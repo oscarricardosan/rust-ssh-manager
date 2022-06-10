@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 iced = { version = "0.4", default-features = false, features = ["glow"] }
+home = "0.5.3"
+cli-clipboard = "0.2.1"
