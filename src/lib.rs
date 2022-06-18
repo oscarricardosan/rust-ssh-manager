@@ -1,6 +1,4 @@
 use std::process::Command;
-use cli_clipboard::{ClipboardContext, ClipboardProvider};
-use cli_clipboard::linux_clipboard::LinuxClipboardContext;
 
 pub fn get_ssh_pub_key() -> String {
 
@@ -20,6 +18,5 @@ pub fn get_ssh_pub_key() -> String {
 }
 
 pub fn copy_ssh_pub_key_to_clipboard(){
-    cli_clipboard::set_contents(get_ssh_pub_key().to_string());
-    println!("{}", cli_clipboard::get_contents().unwrap());
+    cli_clipboard::set_contents(get_ssh_pub_key().to_string()).unwrap();
 }

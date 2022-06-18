@@ -21,12 +21,16 @@ pub enum Message {
     Main,
     SeeSshPressed,
     CopySshKey,
+
+    InputChanged(String),
 }
 
 struct App {
-    main_button: button::State,
-    see_ssh_button: button::State,
-    copy_ssh_button: button::State,
+    button_main: button::State,
+    button_see_ssh: button::State,
+    button_copy_ssh: button::State,
+
+    input_ssh_pub: text_input::State,
 
     state_app: Message,
 }
@@ -36,9 +40,11 @@ impl Sandbox for App {
 
     fn new() -> Self {
         Self{
-            see_ssh_button: button::State::default(),
-            main_button: button::State::default(),
-            copy_ssh_button: button::State::default(),
+            button_see_ssh: button::State::default(),
+            button_main: button::State::default(),
+            button_copy_ssh: button::State::default(),
+
+            input_ssh_pub: text_input::State::default(),
 
             state_app: Message::Main,
         }
@@ -52,6 +58,9 @@ impl Sandbox for App {
         match message {
             Message::CopySshKey=> {
                 copy_ssh_pub_key_to_clipboard();
+                self.state_app= Message::SeeSshPressed;
+            }
+            Message::InputChanged(_)=> {
                 self.state_app= Message::SeeSshPressed;
             }
             _=> {

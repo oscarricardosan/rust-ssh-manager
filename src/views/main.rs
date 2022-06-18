@@ -28,7 +28,7 @@ impl App {
                         .width(Length::Fill)
                         .align_items(Alignment::End)
                         .push(
-                            Button::new(&mut self.see_ssh_button, Text::new("Ver Mi llave SSH").size(16))
+                            Button::new(&mut self.button_see_ssh, Text::new("Ver Mi llave SSH").size(16))
                                 .on_press(Message::SeeSshPressed)
                         )
                     )
@@ -36,9 +36,25 @@ impl App {
             )
         )
         .push(
+        Column::new()
+            .width(Length::Fill)
+            .push(list_ssh_keys())
+        )
+        .push(
             Column::new()
                 .width(Length::Fill)
                 .push(get_savne_title())
         )
     }
+
+
+}
+
+fn list_ssh_keys()->Row<'static, Message> {
+
+    Row::new()
+        .width(Length::Fill)
+        .push(
+            Text::new("Acá lista de xxx")
+        )
 }

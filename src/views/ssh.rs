@@ -1,6 +1,4 @@
-use std::fs;
-use std::process::Command;
-use iced::{alignment, Alignment, Button, Column, Length, Row, Text};
+use iced::{alignment, Alignment, Button, Column, Length, Row, Text, TextInput};
 use crate::{App, Message};
 use crate::lib::get_ssh_pub_key;
 use crate::views::general::{get_savne_title, get_welcome_message};
@@ -32,7 +30,7 @@ impl App {
                         .width(Length::Fill)
                         .align_items(Alignment::End)
                         .push(
-                            Button::new(&mut self.main_button, Text::new("Volver").size(16))
+                            Button::new(&mut self.button_main, Text::new("Volver").size(16))
                                 .on_press(Message::Main)
                         )
                     )
@@ -42,7 +40,7 @@ impl App {
         .push(
         Column::new()
             .width(Length::Fill)
-            .height(Length::Units(50))
+            .height(Length::Units(30))
         )
         .push(
         Column::new()
@@ -69,7 +67,7 @@ impl App {
                         .width(Length::Fill)
                         .align_items(Alignment::End)
                         .push(
-                        Button::new(&mut self.copy_ssh_button, Text::new("Copiar").size(12))
+                        Button::new(&mut self.button_copy_ssh, Text::new("Copiar").size(12))
                             .on_press(Message::CopySshKey)
                         )
                     )
@@ -79,17 +77,25 @@ impl App {
         .push(
         Column::new()
             .width(Length::Fill)
+            .push(Row::new().height(Length::Units(10)))
             .push(
-            Text::new(get_ssh_pub_key())
-                .width(Length::Fill)
-                .size(21)
-                .horizontal_alignment(alignment::Horizontal::Left)
+                TextInput::new(
+                    &mut self.input_ssh_pub, "",
+                    &get_ssh_pub_key(), Message::InputChanged
+                )
             )
-        )
-        .push(
-            Column::new()
-                .width(Length::Fill)
-                .push(get_savne_title())
+            .push(Row::new().height(Length::Units(10)))
+            .push(
+                Text::new(get_ssh_pub_key())
+                    .width(Length::Fill)
+                    .size(21)
+                    .horizontal_alignment(alignment::Horizontal::Left)
+            )
+            .push(
+                Column::new()
+                    .width(Length::Fill)
+                    .push(get_savne_title())
+            )
         )
     }
 }

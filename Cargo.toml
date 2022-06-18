@@ -1,5 +1,5 @@
 [package]
-name = "savnne-ssh-manager"
+name = "savne-ssh-manager"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,3 +9,4 @@ edition = "2021"
 iced = { version = "0.4", default-features = false, features = ["glow"] }
 home = "0.5.3"
 cli-clipboard = "0.2.1"
+
